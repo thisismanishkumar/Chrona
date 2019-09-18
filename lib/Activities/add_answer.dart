@@ -185,6 +185,7 @@ class _AddAnswerState extends State<AddAnswer> {
         "likes": 0,
         "dislikes": 0
       });
+      Navigator.pop(context);
     }
   }
 }

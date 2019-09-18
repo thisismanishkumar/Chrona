@@ -181,6 +181,7 @@ class _AddQuestionState extends State<AddQuestion> {
           String s=StaticState.user.email;
           s=s.substring(0,s.indexOf("@"));
           databaseReferenceUser.child(s).child("question").push().set({"qid":digest.toString(),"verify":false});
+          Navigator.pop(context);
         }
       });
       print(questionText.text.toString() + '\n' + tagcontroller.text.toString());

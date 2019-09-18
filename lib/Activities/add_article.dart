@@ -183,6 +183,7 @@ class _AddArticleState extends State<AddArticle> {
           String s=StaticState.user.email;
           s=s.substring(0,s.indexOf("@"));
           databaseReferenceUser.child(s).child("article").push().set({"qid":digest.toString(),"verify":false});
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Article()));
         }
       });
     //  print(questionText.text.toString() + '\n' + tagcontroller.text.toString());

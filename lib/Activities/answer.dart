@@ -1,4 +1,5 @@
 import 'package:chrona_1/Activities/add_answer.dart';
+import 'package:chrona_1/Activities/update_answer.dart';
 import 'package:chrona_1/UserInfo/state.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -140,7 +141,7 @@ class _AnswerState extends State<Answer> {
                                   onPressed:
                                       snapshot.value["user"].toString() ==
                                               StaticState.user.email.toString()
-                                          ? () => update(snapshot.key)
+                                          ? () => update(KEY,snapshot.key,snapshot.value["answer"])
                                           : null,
                                 ),
                               ],
@@ -231,7 +232,8 @@ class _AnswerState extends State<Answer> {
     });
   }
 
-  update(String key) {
-    databaseReference.child(key).child("question").set(answer.text);
+  update(String qid, ansId, ans) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UpdateAnswer(qid,ansId,ans)));
+
   }
 }

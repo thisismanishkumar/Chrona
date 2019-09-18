@@ -39,6 +39,7 @@ class _StateWidgetState extends State<StateWidget> {
 
   @override
   void initState() {
+    print("########initstate#############");
     super.initState();
     if (widget.state != null)
     {
@@ -60,11 +61,14 @@ class _StateWidgetState extends State<StateWidget> {
   Future<Null> initUser() async {
     googleAccount = await getSignedInAccount(googleSignIn);
     if (googleAccount == null) {
+      print("@@@@@@@@@googleaccount@@@@@@@@@@@@@");
       setState(() {
         StaticState.loading=false;
         state.isLoading = false;
       });
-    } else {
+    }
+    else {
+      print("!!!!!!!!!!!!!signinwith google!!!!!!!!!!!!");
       await signInWithGoogle();
     }
   }
@@ -72,6 +76,7 @@ class _StateWidgetState extends State<StateWidget> {
 
   Future<Null> signInWithGoogle() async {
     if (googleAccount == null) {
+      print("^^^^^^^^^^^future^^^^^^^^^^^");
       // Start the sign-in process:
       googleAccount = await googleSignIn.signIn();
     }
