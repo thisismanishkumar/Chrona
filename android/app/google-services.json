@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "488797749690",
+    "firebase_url": "https://chrona-bc13b.firebaseio.com",
+    "project_id": "chrona-bc13b",
+    "storage_bucket": "chrona-bc13b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488797749690:android:5ad323b46f5a0c89ff1d83",
+        "android_client_info": {
+          "package_name": "com.example.chrona_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488797749690-upaknphs0dcpc6scngb7blvnd2rurisr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chrona_1",
+            "certificate_hash": "48e039e690420526fb607eb30ecc7e94b35ef676"
+          }
+        },
+        {
+          "client_id": "488797749690-eph2hrgesnqoq82lmb8v6j3tbsraj4h5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgJOPg47wKAkx_BDCc27HGJ5D6I_vlVyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488797749690-eph2hrgesnqoq82lmb8v6j3tbsraj4h5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
