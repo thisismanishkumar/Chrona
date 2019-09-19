@@ -21,7 +21,7 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black87,
-        title: Text('Home Screen'),
+        title: Text('Chrona'),
       ),
       body: Container(
         child: Center(
@@ -50,7 +50,7 @@ class HomeScreenState extends State<HomeScreen> {
             new Text(
               "Welcome To Our Learning App",
               style: new TextStyle(fontSize: 20.0),
-            ),
+            ), new Padding(padding: EdgeInsets.all(10.0)),
             new RaisedButton(
               onPressed: check,
               child: new Text(
@@ -58,7 +58,18 @@ class HomeScreenState extends State<HomeScreen> {
                 style:
                     new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-            )
+            ), new Padding(padding: EdgeInsets.all(10.0)),
+            new RaisedButton(
+              onPressed: topic,
+              child: new Text(
+                "Change topic of interest",
+                style:
+                new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+
+
+
           ],
         )),
       ),
@@ -106,8 +117,12 @@ class HomeScreenState extends State<HomeScreen> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => TopicRoute()));
     else {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => NewsMain()));
     }
+  }
+
+  void topic() {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicRoute()));
   }
 }

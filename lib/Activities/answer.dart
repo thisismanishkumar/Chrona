@@ -35,7 +35,6 @@ class _AnswerState extends State<Answer> {
     databaseReference = firebaseDatabase.reference().child("Question").child(KEY);
   }
 
-  TextEditingController answer = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +79,9 @@ class _AnswerState extends State<Answer> {
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
 
+                    TextEditingController answer = new TextEditingController();
+                    answer.text=snapshot.value["answer"];
+
                     // tags.text=snapshot.value["tags"];
                     //print(snapshot.value);
                     return Slidable(
@@ -92,12 +94,13 @@ class _AnswerState extends State<Answer> {
                         child: Column(
                           children: <Widget>[
                             Padding(padding: EdgeInsets.all(5.0)),
+
                             TextFormField(
                               readOnly: true,
                               autocorrect: true,
                               autofocus: false,
-                              //controller: answer,
-                              initialValue: snapshot.value["answer"],
+                              controller: answer,
+                              //initialValue: snapshot.value["answer"],
                               maxLength: 256,
                               maxLines: null,
                               style: TextStyle(
@@ -149,6 +152,17 @@ class _AnswerState extends State<Answer> {
                           ],
                         ),
                       ),
+                      actions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap:    snapshot.value["user"].toString() ==
+                              StaticState.user.email.toString()
+                              ? () => databaseReference.child("Answer").child(snapshot.key).remove()
+                              : null,
+                        )
+                      ],
                       secondaryActions: <Widget>[
                         IconSlideAction(
                           caption: 'Like',

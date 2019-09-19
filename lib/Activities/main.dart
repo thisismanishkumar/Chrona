@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final title = 'News Web';
+    final title = 'Chrona';
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -142,16 +142,16 @@ class _HomePageState extends State<HomePage> {
   void _ontappeditem(int value) {
     if(value==1)
       {
-        Navigator.of(context).push( MaterialPageRoute(builder: (context)=>Question_Route()));
+        Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (context)=>Question_Route()));
         //selectedIndex=1;
       }
     if(value==2)
       {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Article()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Article()));
       }
     if(value==3)
       {
-        Navigator.of(context).push( MaterialPageRoute(builder: (context)=>Account()));
+        Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (context)=>Account()));
        // selectedIndex=2;
       }
   }

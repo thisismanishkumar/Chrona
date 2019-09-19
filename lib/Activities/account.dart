@@ -15,17 +15,27 @@ class Account extends StatefulWidget {
 class _AccountState extends State<Account> {
   int selectedIndex = 3;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-  DatabaseReference databaseReferenceNews;
-
+  DatabaseReference databaseReferenceNews,
+      databaseReferenceBookmark,
+      databaseReferenceArticle;
+  String s;
   @override
   void setState(VoidCallback fn) {
-    String s = StaticState.user.email;
+    s = StaticState.user.email;
     s = s.substring(0, s.indexOf("@"));
+
     databaseReferenceNews = firebaseDatabase
         .reference()
         .child("Users")
         .child(s.toString())
         .child("News");
+    databaseReferenceArticle = firebaseDatabase.reference().child("Article");
+    databaseReferenceBookmark = firebaseDatabase
+        .reference()
+        .child("Users")
+        .child(s)
+        .child("bookmark")
+        .orderByChild("articleid");
   }
 
   @override
@@ -162,6 +172,43 @@ class _AccountState extends State<Account> {
                     );
                   }),
             ),
+            Text(
+              "Bookmarked item of user are",
+              style: TextStyle(
+                  fontSize: 19.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.redAccent),
+            ),
+            Padding(
+              padding: EdgeInsets.all(6.0),
+            ),
+            new Flexible(
+              child: new FirebaseAnimatedList(
+                  query: firebaseDatabase
+                      .reference()
+                      .child("Users")
+                      .child(s)
+                      .child("bookmark"),
+                  padding: new EdgeInsets.all(8.0),
+                  reverse: false,
+                  itemBuilder: (_, DataSnapshot snapshot,
+                      Animation<double> animation, int x) {
+                    print(snapshot);
+                    return ListTile(
+                      title: Text(
+                        '${snapshot.value["header"]}',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        '${snapshot.value["body"]}',
+                        style: TextStyle(fontSize: 14.0),
+                      ),
+                    );
+                  }),
+            ),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -175,7 +222,9 @@ class _AccountState extends State<Account> {
               title: Text("Article"),
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle), title: new Text("Account"),backgroundColor: Colors.black)
+                icon: Icon(Icons.account_circle),
+                title: new Text("Account"),
+                backgroundColor: Colors.black)
           ],
           currentIndex: selectedIndex,
           selectedItemColor: Colors.red,
@@ -185,18 +234,18 @@ class _AccountState extends State<Account> {
 
   void _ontappeditem(int value) {
     if (value == 0) {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => NewsMain()));
       //selectedIndex=0;
     }
     if (value == 1) {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Question_Route()));
       //selectedIndex=1;
     }
     if (value == 2) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Article()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => Article()));
     }
   }
 

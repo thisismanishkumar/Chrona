@@ -129,20 +129,20 @@ class _AddAnswerState extends State<AddAnswer> {
   void _ontappeditem(int value) {
     if (value == 0) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => NewsMain()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => NewsMain()));
       // selectedIndex=0;
     }
     if (value == 1) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Question_Route()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => Question_Route()));
     }
     if (value == 2) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Article()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => Article()));
     }
     if (value == 3) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => Account()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => Account()));
     }
   }
 

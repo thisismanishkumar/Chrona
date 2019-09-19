@@ -39,7 +39,7 @@ class _TopicRouteState extends State<TopicRoute> {
 
   @override
   Widget build(BuildContext context) {
-    print("12122112");
+
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Topics of Interests"),
@@ -141,7 +141,8 @@ class _TopicRouteState extends State<TopicRoute> {
     s=s.substring(0,s.indexOf("@"));
     databaseReference.child(s).child("topicsofinterest").set({"toi":topic});
 
-    Navigator.push(
+    Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => NewsMain()));
+
   }
 }

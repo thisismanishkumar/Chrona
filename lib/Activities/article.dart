@@ -1,5 +1,6 @@
 import 'package:chrona_1/Activities/add_article.dart';
 import 'package:chrona_1/Activities/question.dart';
+import 'package:chrona_1/Activities/update_article.dart';
 import 'package:chrona_1/UserInfo/state.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -17,7 +18,7 @@ class Article extends StatefulWidget {
 class _ArticleState extends State<Article> {
   int selectedIndex = 2;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-  DatabaseReference databaseReferenceArticle;
+  DatabaseReference databaseReferenceArticle,databaseReferenceUser;
 
   @override
   void setState(VoidCallback fn) {}
@@ -27,6 +28,7 @@ class _ArticleState extends State<Article> {
     OnChanged = false;
     super.initState();
     databaseReferenceArticle = firebaseDatabase.reference().child("Article");
+    databaseReferenceUser=firebaseDatabase.reference().child("Users");
   }
 
   TextEditingController headerController = new TextEditingController();
@@ -62,7 +64,7 @@ class _ArticleState extends State<Article> {
                     headerController.text = snapshot.value["header"];
                     bodyController.text = snapshot.value["body"];
                     print(snapshot.value);
-                    debugPrint(snapshot.value["user"]+"  0  "+StaticState.user.email);
+                  //  debugPrint(snapshot.value["user"]+"  0  "+StaticState.user.email);
                     return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.20,
@@ -80,7 +82,7 @@ class _ArticleState extends State<Article> {
                               onEditingComplete: () => OnChanged = true,
                               autocorrect: true,
                               autofocus: false,
-                              controller: headerController,
+                              initialValue: snapshot.value["header"],
                               maxLength: 128,
                               maxLines: null,
                               style: TextStyle(
@@ -109,7 +111,7 @@ class _ArticleState extends State<Article> {
                               onEditingComplete: () => OnChanged = true,
                               autocorrect: true,
                               autofocus: false,
-                              controller: bodyController,
+                              initialValue: snapshot.value["body"],
                               maxLength: 1024,
                               maxLines: null,
                               style: TextStyle(
@@ -146,7 +148,7 @@ class _ArticleState extends State<Article> {
                                   child: Text("UPDATE"),
                                   onPressed: snapshot.value["user"].toString() ==
                                               StaticState.user.email.toString()
-                                          ? ()=>update(snapshot.key)
+                                          ? ()=>update(snapshot.key,snapshot.value["header"],snapshot.value["body"])
                                           : null,
                                 ),
                               ],
@@ -154,6 +156,25 @@ class _ArticleState extends State<Article> {
                           ],
                         ),
                       ),
+                      actions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Bookmark',
+                          color: Colors.blue,
+                        icon: Icons.bookmark,
+                          onTap: () => Bookmark(snapshot.value["header"],snapshot.value["body"]),
+                        ),
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: snapshot.value["user"].toString() ==
+                              StaticState.user.email.toString()
+                              ? ()=>databaseReferenceArticle.child(snapshot.key).remove()
+                              : null,
+                        )
+
+                      ],
+
                       secondaryActions: <Widget>[
                         IconSlideAction(
                           caption: 'Like',
@@ -240,11 +261,15 @@ class _ArticleState extends State<Article> {
     }
   }
 
-  update(String key) {
-    databaseReferenceArticle
-        .child(key)
-        .child("header")
-        .set(headerController.text);
-    databaseReferenceArticle.child(key).child("body").set(bodyController.text);
+  update(String key, head,body) {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>UpdateArticle(key,head,body)));
+
+  }
+
+  Bookmark(String key, value) {
+    String s=StaticState.user.email;
+    s=s.substring(0,s.indexOf("@"));
+    databaseReferenceUser.child(s).child("bookmark").push().set({"header":key,"body":value});
+
   }
 }

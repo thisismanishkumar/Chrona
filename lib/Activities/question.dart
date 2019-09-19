@@ -149,6 +149,18 @@ class _Question_RouteState extends State<Question_Route> {
                           ],
                         ),
                       ),
+                      actions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: snapshot.value["user"]
+                              .toString() ==
+                              StaticState.user.email.toString()
+                              ? () => databaseReference.child(snapshot.key).remove()
+                              : null,
+                        )
+                      ],
                       secondaryActions: <Widget>[
                         IconSlideAction(
                           caption: 'Like',
