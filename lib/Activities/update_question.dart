@@ -106,6 +106,8 @@ class _UpdateQuestionState extends State<UpdateQuestion> {
 
   update() {
     databaseReference.child(qid).child("question").set(question.text);
+    databaseReference.child(qid).child("verify").set(false);
+
     Navigator.push(context, MaterialPageRoute(builder: (context)=>Question_Route()));
   }
 

@@ -1,11 +1,17 @@
 import 'package:chrona_1/Activities/article.dart';
+import 'package:chrona_1/Activities/home.dart';
 import 'package:chrona_1/Activities/main.dart';
 import 'package:chrona_1/Activities/question.dart';
+import 'package:chrona_1/SignIn/auth.dart';
+import 'package:chrona_1/SignIn/login.dart';
+import 'package:chrona_1/SignIn/state_widget.dart';
 import 'package:chrona_1/UserInfo/state.dart';
 import 'package:chrona_1/news/web_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Account extends StatefulWidget {
   @override
@@ -13,12 +19,15 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  GoogleSignInAccount googleAccount;
   int selectedIndex = 3;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference databaseReferenceNews,
       databaseReferenceBookmark,
       databaseReferenceArticle;
   String s;
+  final GoogleSignIn googleSignIn = new GoogleSignIn();
+  StateModel appState;
   @override
   void setState(VoidCallback fn) {
     s = StaticState.user.email;
@@ -40,6 +49,7 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    appState= StateWidget.of(context).state;
     String s = StaticState.user.email;
     s = s.substring(0, s.indexOf("@"));
     return Scaffold(
@@ -52,6 +62,8 @@ class _AccountState extends State<Account> {
                 backgroundImage: NetworkImage(StaticState.user.photoUrl),
                 backgroundColor: Colors.transparent,
               ),
+              onPressed:()=> _signOut(),
+
             )
           ],
           backgroundColor: Colors.black,
@@ -256,5 +268,16 @@ class _AccountState extends State<Account> {
   ) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => WebView(url, source)));
+  }
+
+  Future <void> _signOut()  async{
+    await FirebaseAuth.instance.signOut();
+    googleSignIn.signOut();
+    googleAccount = await getSignedInAccount(googleSignIn);
+    googleAccount=null;
+    appState.user=null;
+    appState.isLoading==false;
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
   }
 }

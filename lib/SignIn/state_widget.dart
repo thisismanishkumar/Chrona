@@ -43,6 +43,7 @@ class _StateWidgetState extends State<StateWidget> {
     super.initState();
     if (widget.state != null)
     {
+      print("#%#%#%#%#%#%#%#%%##%#%%#%");
       StateModel.set(false, state.user);
       state = widget.state;
       StaticState.user=widget.state.user;
@@ -50,6 +51,7 @@ class _StateWidgetState extends State<StateWidget> {
     }
     else
       {
+        print("!@@!@!@!@!@!@!@!@!@!@!@!!@!@");
       state = new StateModel(isLoading: true);
       StateModel.set(true,null );
       initUser();
@@ -82,6 +84,7 @@ class _StateWidgetState extends State<StateWidget> {
     }
     FirebaseUser firebaseUser = await signIntoFirebase(googleAccount);
     state.user = firebaseUser;
+    print("################else###########3");
     // new
     StaticState.user=firebaseUser;
     String s=StaticState.user.email;

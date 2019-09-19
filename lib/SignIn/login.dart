@@ -11,8 +11,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.black,
         title: Text('Google Login'),
+
       ),
       body: Container(
         child: Center(

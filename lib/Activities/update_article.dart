@@ -125,6 +125,8 @@ class _UpdateArticleState extends State<UpdateArticle> {
   update() {
     databaseReference.child(KEY).child("header").set(header.text);
     databaseReference.child(KEY).child("body").set(BODY.text);
+    databaseReference.child(KEY).child("verify").set(false);
+
     Navigator.pop(context);
   }
 
