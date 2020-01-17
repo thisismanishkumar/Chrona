@@ -39,7 +39,6 @@ class _TopicRouteState extends State<TopicRoute> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Topics of Interests"),
