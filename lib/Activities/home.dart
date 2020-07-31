@@ -141,6 +141,18 @@ class HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Text(
+                      "Loading...Please wait",
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Colors.white),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                    ),
                     CircularProgressIndicator(),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),
