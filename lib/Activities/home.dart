@@ -145,6 +145,6 @@ class HomeScreenState extends State<HomeScreen> {
     await _auth.signOut();
     await _googleSignIn.signOut();
     StaticState.user=null;
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
   }
 }
