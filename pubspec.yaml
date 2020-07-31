@@ -35,8 +35,8 @@ dependencies:
   flutter_webview_plugin: ^0.3.7
   crypto: ^2.1.3
   convert: ^2.1.1
-  flushbar: ^1.5.0
-  flutter_slidable: "^0.5.3"
+  flutter_slidable: ^0.5.5
+  flushbar: ^1.10.4
 
 
 
@@ -76,6 +76,9 @@ flutter:
     - images/sports_news.png
     - images/tech_news.png
     - images/top_news.png
+    - images/gaming_news.png
+    - images/global_news.png
+    - images/automobile_news.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
