@@ -30,7 +30,7 @@ class _NewsDetailsState extends State<NewsDetails> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Image.network(widget.article.urlToImage),
+                    Image.network((widget.article.urlToImage==null)?'images/no_image_available.png':widget.article.urlToImage),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -42,7 +42,7 @@ class _NewsDetailsState extends State<NewsDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        widget.article.description,
+                        (widget.article.description==null)?"Sorry! but, No Description is currently Available":widget.article.description,
                         style: TextStyle(fontSize: 19.0),
                       ),
                     )

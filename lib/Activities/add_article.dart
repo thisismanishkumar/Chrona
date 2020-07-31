@@ -80,7 +80,7 @@ class _AddArticleState extends State<AddArticle> {
                       autofocus: true,
                       controller: bodyController,
                       maxLength: 256,
-                      maxLines: null,
+                      maxLines: 8,
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       keyboardType: TextInputType.multiline,
@@ -186,7 +186,6 @@ class _AddArticleState extends State<AddArticle> {
           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Article()));
         }
       });
-    //  print(questionText.text.toString() + '\n' + tagcontroller.text.toString());
 
     }
   }

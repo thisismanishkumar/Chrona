@@ -57,7 +57,7 @@ class _AddQuestionState extends State<AddQuestion> {
                       autofocus: true,
                       controller: questionText,
                       maxLength: 256,
-                      maxLines: null,
+                      maxLines: 6,
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       keyboardType: TextInputType.multiline,
@@ -194,8 +194,6 @@ class _AddQuestionState extends State<AddQuestion> {
           Navigator.pop(context);
         }
       });
-      print(
-          questionText.text.toString() + '\n' + tagcontroller.text.toString());
     }
   }
 }

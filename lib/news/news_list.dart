@@ -46,16 +46,11 @@ class _NewsListPageState extends State<NewsListPage> {
     }
     var res = await http
         .get(Uri.encodeFull(link), headers: {"Accept": "application/json"});
-    // print(res.body);
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["articles"] as List;
-      //  size=data["totalResults"] as num;
-
-     // print(rest);
       list = rest.map<Article>((json) => Article.fromJson(json)).toList();
     }
-    //print("List Size: ${size}");
     return list;
   }
 
@@ -126,8 +121,7 @@ class _NewsListPageState extends State<NewsListPage> {
   }
 
   void _onTapItem(BuildContext context, Article article) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => NewsDetails(article, widget.title)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>NewsDetails(article, widget.title)));
   }
 
   @override
@@ -156,7 +150,6 @@ class _NewsListPageState extends State<NewsListPage> {
   }
 
   Like(Article article) {
-    print(article.toJson());
     databaseReferencelike.push().set(article.toJson());
   }
 

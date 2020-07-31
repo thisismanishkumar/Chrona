@@ -80,9 +80,6 @@ class HomeScreenState extends State<HomeScreen> {
 
               )
             )
-
-
-
           ],
         )),
       ),
@@ -130,7 +127,7 @@ class HomeScreenState extends State<HomeScreen> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => TopicRoute()));
     else {
-      Navigator.pushReplacement(
+      Navigator.push(
           context, MaterialPageRoute(builder: (context) => NewsMain()));
     }
   }

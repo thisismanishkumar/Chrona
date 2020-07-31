@@ -45,8 +45,7 @@ class _HomePageState extends State<HomePage> {
       //adding all the categories of news in the list
       new Categories('images/top_news.png', "Top Headlines", "top_news"),
       new Categories('images/health_news.png', "Health", "health"),
-      new Categories(
-          'images/entertainment_news.png', "Entertainment", "entertainment"),
+      new Categories('images/entertainment_news.png', "Entertainment", "entertainment"),
       new Categories('images/sports_news.png', "Sports", "sports"),
       new Categories('images/business_news.png', "Business", "business"),
       new Categories('images/tech_news.png', "Technology", "technology"),

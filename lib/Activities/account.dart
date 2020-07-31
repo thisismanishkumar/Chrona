@@ -96,7 +96,6 @@ class _AccountState extends State<Account> {
                   reverse: false,
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
-                    print(snapshot);
                     return new Card(
                       child: Container(
                         height: 120.0,
@@ -160,7 +159,6 @@ class _AccountState extends State<Account> {
                   reverse: false,
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
-                    print(snapshot);
                     return new Card(
                       child: Container(
                         height: 80.0,
@@ -205,7 +203,6 @@ class _AccountState extends State<Account> {
                   reverse: false,
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
-                    print(snapshot);
                     return ListTile(
                       title: Text(
                         '${snapshot.value["header"]}',

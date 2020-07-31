@@ -28,13 +28,9 @@ class _TopicRouteState extends State<TopicRoute> {
 
   @override
   void initState() {
-
-    print("4554");
     super.initState();
 
     databaseReference = database.reference().child("Users");
-//    databaseReference.onChildAdded.listen(_onEntryAdded);
-//    databaseReference.onChildChanged.listen(_onEntryChanged);
   }
 
   @override
@@ -71,9 +67,7 @@ class _TopicRouteState extends State<TopicRoute> {
               "Automobile",
             ],
               onSelected: (List<String> checked){
-              print(checked.toString());
               topic=checked;
-              print(topic.toString());
               }
           ),
           Padding(
@@ -85,8 +79,6 @@ class _TopicRouteState extends State<TopicRoute> {
           ),
           RaisedButton(
             onPressed: () {
-
-              print("123");
               topic.clear();
             },
             child: Text(
@@ -107,7 +99,6 @@ class _TopicRouteState extends State<TopicRoute> {
   }
 
    handleSubmit(BuildContext context) async {
-    print("hello");
     if(topic.length==0)
       {
         Flushbar(
@@ -132,10 +123,8 @@ class _TopicRouteState extends State<TopicRoute> {
         )..show(context);
 
       }
-    debugPrint(StaticState.user.email.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(StaticState.user.email.toString(), 1);
-    debugPrint(StaticState.user.email.toString());
     String s=StaticState.user.email;
     s=s.substring(0,s.indexOf("@"));
     databaseReference.child(s).child("topicsofinterest").set({"toi":topic});

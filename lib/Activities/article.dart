@@ -128,7 +128,7 @@ class _ArticleState extends State<Article> {
                             ),
                             Row(
                               children: <Widget>[
-                                Icon(Icons.check),
+                                Icon(Icons.thumb_up),
                                 Text(
                                   " " + snapshot.value["likes"].toString(),
                                   style: TextStyle(color: Colors.indigo),
@@ -136,7 +136,7 @@ class _ArticleState extends State<Article> {
                                 Padding(
                                     padding:
                                         EdgeInsetsDirectional.only(start: 5.0)),
-                                Icon(Icons.clear),
+                                Icon(Icons.thumb_down),
                                 Text(
                                   " " + snapshot.value["dislikes"].toString(),
                                   style: TextStyle(color: Colors.red),
@@ -231,7 +231,6 @@ class _ArticleState extends State<Article> {
   Like(String key) {
     databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
       int likes = snapshot.value["likes"];
-      print("likes are ${likes}");
       databaseReferenceArticle.child(key).child("likes").set(likes + 1);
     });
   }
@@ -239,7 +238,7 @@ class _ArticleState extends State<Article> {
   Dislike(String key) {
     databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
       int dislikes = snapshot.value["dislikes"];
-      print("likes are ${dislikes}");
+
       databaseReferenceArticle.child(key).child("dislikes").set(dislikes + 1);
     });
   }

@@ -56,8 +56,6 @@ class _Question_RouteState extends State<Question_Route> {
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
 
-                    // tags.text=snapshot.value["tags"];
-                    //print(snapshot.value);
                     return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.20,
@@ -72,7 +70,7 @@ class _Question_RouteState extends State<Question_Route> {
                               autofocus: false,
                               initialValue: snapshot.value["question"],
                               maxLength: 256,
-                              maxLines: null,
+                              maxLines: 6,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
@@ -111,7 +109,7 @@ class _Question_RouteState extends State<Question_Route> {
                             ),
                             Row(
                               children: <Widget>[
-                                Icon(Icons.check),
+                                Icon(Icons.thumb_up),
                                 Text(
                                   " " + snapshot.value["likes"].toString(),
                                   style: TextStyle(color: Colors.indigo),
@@ -119,7 +117,7 @@ class _Question_RouteState extends State<Question_Route> {
                                 Padding(
                                     padding:
                                         EdgeInsetsDirectional.only(start: 5.0)),
-                                Icon(Icons.clear),
+                                Icon(Icons.thumb_down),
                                 Text(
                                   " " + snapshot.value["dislikes"].toString(),
                                   style: TextStyle(color: Colors.red),
@@ -231,8 +229,6 @@ class _Question_RouteState extends State<Question_Route> {
   Like(String key) {
     databaseReference.child(key).once().then((DataSnapshot snapshot) {
       List likes = snapshot.value["likes"];
-      print("likes are ${likes.length}");
-      print(StaticState.user.email.toString());
       databaseReference.child(key).child("likes").push();
     });
   }
@@ -240,7 +236,6 @@ class _Question_RouteState extends State<Question_Route> {
   Dislike(String key) {
     databaseReference.child(key).once().then((DataSnapshot snapshot) {
       int dislikes = snapshot.value["dislikes"];
-      print("likes are ${dislikes}");
       databaseReference.child(key).child("dislikes").set(dislikes + 1);
     });
   }

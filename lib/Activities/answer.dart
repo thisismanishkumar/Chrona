@@ -123,7 +123,7 @@ class _AnswerState extends State<Answer> {
 
                             Row(
                               children: <Widget>[
-                                Icon(Icons.check),
+                                Icon(Icons.thumb_up),
                                 Text(
                                   " " + snapshot.value["likes"].toString(),
                                   style: TextStyle(color: Colors.indigo),
@@ -131,7 +131,7 @@ class _AnswerState extends State<Answer> {
                                 Padding(
                                     padding:
                                         EdgeInsetsDirectional.only(start: 5.0)),
-                                Icon(Icons.clear),
+                                Icon(Icons.thumb_down),
                                 Text(
                                   " " + snapshot.value["dislikes"].toString(),
                                   style: TextStyle(color: Colors.red),
@@ -233,7 +233,6 @@ class _AnswerState extends State<Answer> {
   Like(String key) {
     databaseReference.child("Answer").child(key).once().then((DataSnapshot snapshot) {
       int likes = snapshot.value["likes"];
-      print("likes are ${likes}");
       databaseReference.child("Answer").child(key).child("likes").set(likes + 1);
     });
   }
@@ -241,13 +240,11 @@ class _AnswerState extends State<Answer> {
   Dislike(String key) {
     databaseReference.child("Answer").child(key).once().then((DataSnapshot snapshot) {
       int dislikes = snapshot.value["dislikes"];
-      print("likes are ${dislikes}");
       databaseReference.child("Answer").child(key).child("dislikes").set(dislikes + 1);
     });
   }
 
   update(String qid, ansId, ans) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UpdateAnswer(qid,ansId,ans)));
-
   }
 }
