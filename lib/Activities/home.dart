@@ -1,4 +1,3 @@
-import 'package:chrona_1/SharedPreferences/shared_preferences.dart';
 import 'package:chrona_1/Activities/main.dart';
 import 'package:chrona_1/topics.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +7,8 @@ import '../UserInfo/state.dart';
 import '../SignIn/state_widget.dart';
 import '../SignIn/login.dart';
 import '../topics.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class HomeScreenState extends State<HomeScreen> {
 //              crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Container(
-                alignment: Alignment.topCenter,
+                alignment: Alignment.center,
                 padding: EdgeInsets.all(30.0),
                 height: 150.0,
                 width: 150.0,
@@ -67,6 +68,15 @@ class HomeScreenState extends State<HomeScreen> {
                 new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
             ),
+            new Padding(padding: EdgeInsets.all(10.0)),
+            new RaisedButton(
+                onPressed: signOut,
+              child: new Text(
+                "Sign Out",
+                style:new TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+
+              )
+            )
 
 
 
@@ -124,5 +134,14 @@ class HomeScreenState extends State<HomeScreen> {
 
   void topic() {
     Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicRoute()));
+  }
+
+  void signOut() async{
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+    await _auth.signOut();
+    await _googleSignIn.signOut();
+    StaticState.user=null;
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
   }
 }

@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "488797749690-i3e1jac36utal8g5mebkcuj6r5f2i3r5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chrona_1",
+            "certificate_hash": "637d834b268e087b0af880bc4df50ea6d80f5c85"
+          }
+        },
+        {
+          "client_id": "488797749690-2114vnqeb9eie40e3enjkk1g866t3i7i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chrona_1",
+            "certificate_hash": "6467110345939be77af3e5eb10253c92bcd33ce0"
+          }
+        },
+        {
           "client_id": "488797749690-upaknphs0dcpc6scngb7blvnd2rurisr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -38,6 +54,13 @@
             {
               "client_id": "488797749690-eph2hrgesnqoq82lmb8v6j3tbsraj4h5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "488797749690-b5o3cdn689hlrnh8moaqjllh5ab0hh4s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chrona1"
+              }
             }
           ]
         }

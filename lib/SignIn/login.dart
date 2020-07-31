@@ -1,6 +1,7 @@
+import 'package:chrona_1/Activities/home.dart';
 import 'package:flutter/material.dart';
 import 'state_widget.dart';
-
+import 'package:chrona_1/UserInfo/state.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -21,14 +22,14 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
-                  onPressed: () => StateWidget.of(context).signInWithGoogle(),
+                  onPressed: () { if(StaticState.user==null)StateWidget.of(context).signInWithGoogle().then((val)=>Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen())));},
                   padding: EdgeInsets.only(top: 3.0, bottom: 3.0, left: 3.0),
                   color: const Color(0xFFFFFFFF),
                   child: new Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       new Image.asset(
-                        'asset/google_button.jpg',
+                        'images/g1.jpg',
                         height: 40.0,
                       ),
                       new Container(
