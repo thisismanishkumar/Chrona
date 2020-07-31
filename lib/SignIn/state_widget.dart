@@ -90,6 +90,12 @@ class _StateWidgetState extends State<StateWidget> {
     String s=StaticState.user.email;
     s=s.substring(0,s.indexOf("@"));
     databaseReference.child(s).child("info").set({"name":firebaseUser.displayName,"emailId":firebaseUser.email});
+    databaseReference.child(s).child("liked").once().then((DataSnapshot snapshot) {
+      StaticState.likes=snapshot.value;
+    });
+    databaseReference.child(s).child("disliked").once().then((DataSnapshot snapshot) {
+      StaticState.dislikes=snapshot.value;
+    });
     setState(() {
       StaticState.user=firebaseUser;
       state.isLoading = false;

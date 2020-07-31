@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:collection';
 
 class StateModel {
   bool isLoading;
@@ -20,4 +21,5 @@ class StaticState
 {
   static FirebaseUser user;
   static bool loading=false;
+  static HashMap<String,bool> likes,dislikes;
 }
