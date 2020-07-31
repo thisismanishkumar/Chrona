@@ -7,6 +7,7 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'package:flushbar/flushbar.dart';
 import 'account.dart';
 import 'main.dart';
 
@@ -167,10 +168,7 @@ class _ArticleState extends State<Article> {
                           caption: 'Delete',
                           color: Colors.red,
                           icon: Icons.delete,
-                          onTap: snapshot.value["user"].toString() ==
-                              StaticState.user.email.toString()
-                              ? ()=>databaseReferenceArticle.child(snapshot.key).remove()
-                              : null,
+                          onTap: () => checkForDelete(context,snapshot.key,snapshot.value["user"]),
                         )
 
                       ],
@@ -358,6 +356,53 @@ class _ArticleState extends State<Article> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Account()));
       //selectedIndex=2;
+    }
+  }
+  checkForDelete(BuildContext context, String key, String user) {
+    if(user == StaticState.user.email.toString()){
+      databaseReferenceArticle.child(key).remove();
+      Flushbar(
+        padding: EdgeInsets.all(10.0),
+        borderRadius: 8,
+        backgroundGradient: LinearGradient(
+          colors: [Colors.green, Colors.lightGreen],
+          stops: [0.5, 1],
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        title: 'Successful!',
+        message: 'Your Article has been deleted successfully!!!',
+        duration: Duration(seconds: 4),
+      )..show(context);
+    }
+    else{
+      Flushbar(
+        padding: EdgeInsets.all(10.0),
+        borderRadius: 8,
+        backgroundGradient: LinearGradient(
+          colors: [Colors.deepOrange, Colors.deepOrangeAccent],
+          stops: [0.5, 1],
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        title: 'Failure!',
+        message: 'You cannot delete other user Article',
+        duration: Duration(seconds: 4),
+      )..show(context);
     }
   }
 

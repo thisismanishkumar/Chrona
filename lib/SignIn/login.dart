@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.redAccent),
+            decoration: BoxDecoration(color: Colors.black54),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         radius: 50.0,
                         child: Icon(
                           Icons.developer_mode,
-                          color: Colors.greenAccent,
+                          color: Colors.indigo,
                           size: 50.0,
                         ),
                       ),

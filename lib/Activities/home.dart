@@ -102,7 +102,7 @@ class HomeScreenState extends State<HomeScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.redAccent),
+            decoration: BoxDecoration(color: Colors.black54),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -118,7 +118,7 @@ class HomeScreenState extends State<HomeScreen> {
                         radius: 50.0,
                         child: Icon(
                           Icons.developer_mode,
-                          color: Colors.greenAccent,
+                          color: Colors.indigo,
                           size: 50.0,
                         ),
                       ),
