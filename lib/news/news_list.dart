@@ -40,10 +40,24 @@ class _NewsListPageState extends State<NewsListPage> {
     if (newsType == "top_news") {
       link =
           "https://newsapi.org/v2/top-headlines?country=in&apiKey=36bbc55c610e417e8b80512b6ea9e7c5";
-    } else {
+    }
+    else if(newsType == "global") {
+      link=
+      "https://newsapi.org/v2/everything?domains=bbc.com,foxnews.com,cnn.com&sortBy=popularity&apiKey=36bbc55c610e417e8b80512b6ea9e7c5";
+    }
+    else if(newsType == "gaming") {
+      link=
+      "https://newsapi.org/v2/everything?domains=ign.com&sortBy=popularity&apiKey=36bbc55c610e417e8b80512b6ea9e7c5";
+    }
+    else if(newsType == "automobiles") {
+      link=
+      "https://newsapi.org/v2/everything?domains=autonews.com,thedrive.com,autocarindia.com&sortBy=popularity&apiKey=36bbc55c610e417e8b80512b6ea9e7c5";
+    }
+     else {
       link =
           "https://newsapi.org/v2/top-headlines?country=in&category=$newsType&apiKey=36bbc55c610e417e8b80512b6ea9e7c5";
     }
+    print(link);
     var res = await http
         .get(Uri.encodeFull(link), headers: {"Accept": "application/json"});
     if (res.statusCode == 200) {

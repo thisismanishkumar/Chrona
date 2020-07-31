@@ -65,6 +65,7 @@ class _TopicRouteState extends State<TopicRoute> {
               "Gaming",
               "Entertainment",
               "Automobile",
+              "Health",
             ],
               onSelected: (List<String> checked){
               topic=checked;
@@ -118,7 +119,7 @@ class _TopicRouteState extends State<TopicRoute> {
           dismissDirection: FlushbarDismissDirection.HORIZONTAL,
           forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
           title: 'Something Missing!!!',
-          message: 'You have not selected anything atleast choose one',
+          message: 'You have not selected anything atleast choose one option',
           duration: Duration(seconds: 3),
         )..show(context);
 
