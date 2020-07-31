@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
-                  onPressed: () { if(StaticState.user==null)StateWidget.of(context).signInWithGoogle();Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));},
+                  onPressed: () { if(StaticState.user==null)StateWidget.of(context).signInWithGoogle().then((val)=>Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen())));},
                   padding: EdgeInsets.only(top: 3.0, bottom: 3.0, left: 3.0),
                   color: const Color(0xFFFFFFFF),
                   child: new Row(
