@@ -99,7 +99,6 @@ class _StateWidgetState extends State<StateWidget> {
     });
 
   }
-
   @override
   Widget build(BuildContext context) {
     return new _StateDataWidget(
@@ -109,10 +108,8 @@ class _StateWidgetState extends State<StateWidget> {
     );
   }
 }
-
 class _StateDataWidget extends InheritedWidget {
   final _StateWidgetState data;
-
   _StateDataWidget({
     Key key,
     @required Widget child,

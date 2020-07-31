@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'dart:collection' as prefix0;
-
+import 'package:flushbar/flushbar.dart';
 import 'package:chrona_1/Activities/account.dart';
 import 'package:chrona_1/Activities/add_question.dart';
 import 'package:chrona_1/Activities/answer.dart';
@@ -154,11 +154,7 @@ class _Question_RouteState extends State<Question_Route> {
                           caption: 'Delete',
                           color: Colors.red,
                           icon: Icons.delete,
-                          onTap: snapshot.value["user"]
-                              .toString() ==
-                              StaticState.user.email.toString()
-                              ? () => databaseReference.child(snapshot.key).remove()
-                              : null,
+                          onTap: ()=>checkForDelete(context,snapshot.key,snapshot.value["user"])
                         )
                       ],
                       secondaryActions: <Widget>[
@@ -352,11 +348,60 @@ class _Question_RouteState extends State<Question_Route> {
       });
     }
   }
+  checkForDelete(BuildContext context, String key, String user) {
+    if(user == StaticState.user.email.toString()){
+      databaseReference.child(key).remove();
+      Flushbar(
+        padding: EdgeInsets.all(10.0),
+        borderRadius: 8,
+        backgroundGradient: LinearGradient(
+          colors: [Colors.green, Colors.lightGreen],
+          stops: [0.5, 1],
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        title: 'Successful!',
+        message: 'Your Question has been deleted successfully!!!',
+        duration: Duration(seconds: 4),
+      )..show(context);
+    }
+    else{
+      Flushbar(
+        padding: EdgeInsets.all(10.0),
+        borderRadius: 8,
+        backgroundGradient: LinearGradient(
+          colors: [Colors.deepOrange, Colors.deepOrangeAccent],
+          stops: [0.5, 1],
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        title: 'Failure!',
+        message: 'You cannot delete other user Question',
+        duration: Duration(seconds: 4),
+      )..show(context);
+    }
+  }
 
   update(String key, value) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => UpdateQuestion(key, value)));
   }
 }
+
+
 
 
