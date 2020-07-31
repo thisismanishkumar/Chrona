@@ -128,7 +128,7 @@ class _TopicRouteState extends State<TopicRoute> {
           forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
           title: 'Something Missing!!!',
           message: 'You have not selected anything atleast choose one',
-          duration: Duration(seconds: 4),
+          duration: Duration(seconds: 3),
         )..show(context);
 
       }

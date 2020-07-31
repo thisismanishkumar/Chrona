@@ -230,9 +230,10 @@ class _Question_RouteState extends State<Question_Route> {
 
   Like(String key) {
     databaseReference.child(key).once().then((DataSnapshot snapshot) {
-      int likes = snapshot.value["likes"];
-      print("likes are ${likes}");
-      databaseReference.child(key).child("likes").set(likes + 1);
+      List likes = snapshot.value["likes"];
+      print("likes are ${likes.length}");
+      print(StaticState.user.email.toString());
+      databaseReference.child(key).child("likes").push();
     });
   }
 

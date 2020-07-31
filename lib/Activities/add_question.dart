@@ -91,7 +91,7 @@ class _AddQuestionState extends State<AddQuestion> {
                     padding: EdgeInsetsDirectional.only(top: 10.0),
                   ),
                   RaisedButton(
-                    onPressed: ()=>submit(context),
+                    onPressed: () => submit(context),
                     child: Text("Submit"),
                     elevation: 5.0,
                   )
@@ -133,31 +133,28 @@ class _AddQuestionState extends State<AddQuestion> {
   }
 
   void submit(BuildContext context) {
-    if(questionText.text.isEmpty || tagcontroller.text.isEmpty)
-      {
-        Flushbar(
-          padding: EdgeInsets.all(10.0),
-          borderRadius: 8,
-          backgroundGradient: LinearGradient(
-            colors: [Colors.amber.shade500, Colors.orange.shade500],
-            stops: [0.5, 1],
+    if (questionText.text.isEmpty || tagcontroller.text.isEmpty) {
+      Flushbar(
+        padding: EdgeInsets.all(10.0),
+        borderRadius: 8,
+        backgroundGradient: LinearGradient(
+          colors: [Colors.amber.shade500, Colors.orange.shade500],
+          stops: [0.5, 1],
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(3, 3),
+            blurRadius: 3,
           ),
-          boxShadows: [
-            BoxShadow(
-              color: Colors.black45,
-              offset: Offset(3, 3),
-              blurRadius: 3,
-            ),
-          ],
-          dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-          forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-          title: 'Something Missing!!!',
-          message: 'Check whether above two fields are filled or not.',
-          duration: Duration(seconds: 4),
-        )..show(context);
-      }
-    else{
-
+        ],
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        title: 'Something Missing!!!',
+        message: 'Check whether above two fields are filled or not.',
+        duration: Duration(seconds: 4),
+      )..show(context);
+    } else {
       List<String> tags = tagcontroller.text.split(";");
 
       var firstChunk = utf8.encode(questionText.text);
@@ -169,24 +166,36 @@ class _AddQuestionState extends State<AddQuestion> {
       input.add(secondChunk); // call `add` for every chunk of input data
       input.close();
       var digest = output.events.single;
-      databaseReferenceQues.child(digest.toString()).once().then((DataSnapshot data) {
+      databaseReferenceQues
+          .child(digest.toString())
+          .once()
+          .then((DataSnapshot data) {
         if (data.value != null) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text("This Question already exists !!"),
           ));
         } else {
-          databaseReferenceQues
-              .child(digest.toString())
-              .set({"question": questionText.text, "tags": tags,"verify":false,"user":StaticState.user.email.toString(),"username":StaticState.user.displayName.toString(),"likes":0,"dislikes":0});
-          String s=StaticState.user.email;
-          s=s.substring(0,s.indexOf("@"));
-          databaseReferenceUser.child(s).child("question").push().set({"qid":digest.toString(),"verify":false});
+          databaseReferenceQues.child(digest.toString()).set({
+            "question": questionText.text,
+            "tags": tags,
+            "verify": false,
+            "user": StaticState.user.email.toString(),
+            "username": StaticState.user.displayName.toString(),
+            "likes": [],
+            "dislikes": []
+          });
+          String s = StaticState.user.email;
+          s = s.substring(0, s.indexOf("@"));
+          databaseReferenceUser
+              .child(s)
+              .child("question")
+              .push()
+              .set({"qid": digest.toString(), "verify": false});
           Navigator.pop(context);
         }
       });
-      print(questionText.text.toString() + '\n' + tagcontroller.text.toString());
-
+      print(
+          questionText.text.toString() + '\n' + tagcontroller.text.toString());
     }
   }
-  
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chrona_1/Activities/home.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -96,6 +97,7 @@ class _StateWidgetState extends State<StateWidget> {
       state.user = firebaseUser;
       StaticState.loading=false;
     });
+
   }
 
   @override
@@ -103,6 +105,7 @@ class _StateWidgetState extends State<StateWidget> {
     return new _StateDataWidget(
       data: this,
       child: widget.child,
+
     );
   }
 }
