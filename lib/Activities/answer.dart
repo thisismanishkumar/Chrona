@@ -26,13 +26,14 @@ class _AnswerState extends State<Answer> {
   _AnswerState(this.Ques,  this.KEY);
 
   int selectedIndex = 1;
-  DatabaseReference databaseReference;
+  DatabaseReference databaseReference, databaseReferenceAnswer;
   FirebaseDatabase firebaseDatabase;
 
   @override
   void initState() {
     firebaseDatabase = FirebaseDatabase.instance;
     databaseReference = firebaseDatabase.reference().child("Question").child(KEY);
+    databaseReferenceAnswer = databaseReference.child("Answer");
   }
 
 
@@ -85,8 +86,6 @@ class _AnswerState extends State<Answer> {
                     // tags.text=snapshot.value["tags"];
                     //print(snapshot.value);
                     return Slidable(
-
-
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.20,
                       child: new Card(
@@ -125,7 +124,7 @@ class _AnswerState extends State<Answer> {
                               children: <Widget>[
                                 Icon(Icons.thumb_up),
                                 Text(
-                                  " " + snapshot.value["likes"].toString(),
+                                  " " + snapshot.value["likeCount"].toString(),
                                   style: TextStyle(color: Colors.indigo),
                                 ),
                                 Padding(
@@ -133,7 +132,7 @@ class _AnswerState extends State<Answer> {
                                         EdgeInsetsDirectional.only(start: 5.0)),
                                 Icon(Icons.thumb_down),
                                 Text(
-                                  " " + snapshot.value["dislikes"].toString(),
+                                  " " + snapshot.value["dislikeCount"].toString(),
                                   style: TextStyle(color: Colors.red),
                                 ),
                                 Padding(padding: EdgeInsets.only(left: 50.0)),
@@ -231,17 +230,118 @@ class _AnswerState extends State<Answer> {
   }
 
   Like(String key) {
-    databaseReference.child("Answer").child(key).once().then((DataSnapshot snapshot) {
-      int likes = snapshot.value["likes"];
-      databaseReference.child("Answer").child(key).child("likes").set(likes + 1);
+    bool flag=false;
+    databaseReferenceAnswer.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).once().then((DataSnapshot snapshot){
+      if(snapshot.value==null){
+        flag=true;
+        databaseReferenceAnswer.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":true});
+        databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+          int likes = snapshot.value["likeCount"];
+          databaseReferenceAnswer.child(key).child("likeCount").set(likes+1);
+        });
+      }
+      else{
+        flag=snapshot.value["flag"];
+        if(flag==true) {
+          flag = false;
+          databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+            int likes = snapshot.value["likeCount"];
+            databaseReferenceAnswer.child(key).child("likeCount").set(likes-1);
+          });
+        }
+        else{
+          flag = true;
+          print("%%");
+          databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+            int likes = snapshot.value["likeCount"];
+            databaseReferenceAnswer.child(key).child("likeCount").set(likes+1);
+          });
+        }
+        databaseReferenceAnswer.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":flag});
+      }
+      checkDislike(flag,key);
     });
   }
+  checkDislike(bool flag, String key){
+    if(flag==true) {
+      databaseReferenceAnswer.child(key).child("dislikes").child(
+          StaticState.user.email.substring(
+              0, StaticState.user.email.indexOf("@"))).once().then((
+          DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          bool flag1 = snapshot.value["flag"];
+          if (flag1 == true) {
+            flag1 = false;
+            databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+              int dislikes = snapshot.value["dislikeCount"];
+              databaseReferenceAnswer.child(key).child("dislikeCount").set(
+                  dislikes - 1);
+            });
+          }
+          databaseReferenceAnswer.child(key).child("dislikes").child(
+              StaticState.user.email.substring(
+                  0, StaticState.user.email.indexOf("@"))).set({"flag": flag1});
+        }
+      });
+    }
+  }
+
 
   Dislike(String key) {
-    databaseReference.child("Answer").child(key).once().then((DataSnapshot snapshot) {
-      int dislikes = snapshot.value["dislikes"];
-      databaseReference.child("Answer").child(key).child("dislikes").set(dislikes + 1);
+    bool flag;
+    databaseReferenceAnswer.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).once().then((DataSnapshot snapshot){
+      if(snapshot.value==null){
+        flag = true;
+        databaseReferenceAnswer.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":true});
+        databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+          int dislikes = snapshot.value["dislikeCount"];
+          databaseReferenceAnswer.child(key).child("dislikeCount").set(dislikes+1);
+        });
+      }
+      else{
+        flag=snapshot.value["flag"];
+        if(flag==true) {
+          flag = false;
+          databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+            int dislikes = snapshot.value["dislikeCount"];
+            databaseReferenceAnswer.child(key).child("dislikeCount").set(dislikes-1);
+          });
+        }
+        else{
+          flag=true;
+          databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+            int dislikes = snapshot.value["dislikeCount"];
+            databaseReferenceAnswer.child(key).child("dislikeCount").set(dislikes+1);
+          });
+        }
+        databaseReferenceAnswer.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":flag});
+      }
+      checkLike(flag,key);
     });
+
+  }
+  checkLike(bool flag, String key){
+    if(flag==true) {
+      databaseReferenceAnswer.child(key).child("likes").child(
+          StaticState.user.email.substring(
+              0, StaticState.user.email.indexOf("@"))).once().then((
+          DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          bool flag1 = snapshot.value["flag"];
+          if (flag1 == true) {
+            flag1 = false;
+            databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
+              int dislikes = snapshot.value["likeCount"];
+              databaseReferenceAnswer.child(key).child("likeCount").set(
+                  dislikes - 1);
+            });
+          }
+          databaseReferenceAnswer.child(key).child("likes").child(
+              StaticState.user.email.substring(
+                  0, StaticState.user.email.indexOf("@"))).set({"flag": flag1});
+        }
+      });
+    }
   }
 
   update(String qid, ansId, ans) {

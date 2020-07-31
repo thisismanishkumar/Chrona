@@ -11,25 +11,25 @@ import 'package:flutter/material.dart';
 
 import 'account.dart';
 import 'main.dart';
+
 class AddArticle extends StatefulWidget {
   @override
   _AddArticleState createState() => _AddArticleState();
 }
 
 class _AddArticleState extends State<AddArticle> {
-  FirebaseDatabase firebaseDatabase=FirebaseDatabase.instance;
-  DatabaseReference databaseReferenceArticle,databaseReferenceUser;
+  FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+  DatabaseReference databaseReferenceArticle, databaseReferenceUser;
 
   @override
   void initState() {
-    databaseReferenceArticle=firebaseDatabase.reference().child("Article");
-    databaseReferenceUser=firebaseDatabase.reference().child("Users");
-
+    databaseReferenceArticle = firebaseDatabase.reference().child("Article");
+    databaseReferenceUser = firebaseDatabase.reference().child("Users");
   }
 
-  final TextEditingController headerController= new TextEditingController();
+  final TextEditingController headerController = new TextEditingController();
   final TextEditingController bodyController = new TextEditingController();
-  int selectedIndex=2;
+  int selectedIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +75,6 @@ class _AddArticleState extends State<AddArticle> {
                     padding: EdgeInsetsDirectional.only(top: 10.0),
                   ),
                   TextField(
-
                       autocorrect: true,
                       autofocus: true,
                       controller: bodyController,
@@ -95,7 +94,7 @@ class _AddArticleState extends State<AddArticle> {
                     padding: EdgeInsetsDirectional.only(top: 10.0),
                   ),
                   RaisedButton(
-                    onPressed: ()=>submit(context),
+                    onPressed: () => submit(context),
                     child: Text("Submit"),
                     elevation: 5.0,
                   )
@@ -115,7 +114,9 @@ class _AddArticleState extends State<AddArticle> {
                 title: new Text("Q/A"),
                 backgroundColor: Colors.black),
             BottomNavigationBarItem(
-                icon: Icon(Icons.description), title: new Text("Article"),backgroundColor: Colors.black),
+                icon: Icon(Icons.description),
+                title: new Text("Article"),
+                backgroundColor: Colors.black),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle), title: new Text("Account"))
           ],
@@ -125,10 +126,8 @@ class _AddArticleState extends State<AddArticle> {
         ));
   }
 
-
   void submit(BuildContext context) {
-    if(headerController.text.isEmpty || headerController.text.isEmpty)
-    {
+    if (headerController.text.isEmpty || headerController.text.isEmpty) {
       Flushbar(
         padding: EdgeInsets.all(10.0),
         borderRadius: 8,
@@ -149,10 +148,7 @@ class _AddArticleState extends State<AddArticle> {
         message: 'Check whether above two fields are filled or not.',
         duration: Duration(seconds: 4),
       )..show(context);
-    }
-    else{
-
-
+    } else {
       var firstChunk = utf8.encode(headerController.text);
       var secondChunk = utf8.encode(bodyController.text);
 
@@ -162,7 +158,10 @@ class _AddArticleState extends State<AddArticle> {
       input.add(secondChunk); // call `add` for every chunk of input data
       input.close();
       var digest = output.events.single;
-      databaseReferenceArticle.child(digest.toString()).once().then((DataSnapshot data) {
+      databaseReferenceArticle
+          .child(digest.toString())
+          .once()
+          .then((DataSnapshot data) {
         if (data.value != null) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text("This Question already exists !!"),
@@ -177,18 +176,30 @@ class _AddArticleState extends State<AddArticle> {
           input.add(secondChunk); // call `add` for every chunk of input data
           input.close();
           var digest = output.events.single;
-          databaseReferenceArticle
-              .child(digest.toString())
-              .set({"header": headerController.text, "body": bodyController.text,"verify":false,"user":StaticState.user.email.toString(),"username":StaticState.user.displayName.toString(),"likes":0,"dislikes":0});
-          String s=StaticState.user.email;
-          s=s.substring(0,s.indexOf("@"));
-          databaseReferenceUser.child(s).child("article").push().set({"qid":digest.toString(),"verify":false});
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Article()));
+          databaseReferenceArticle.child(digest.toString()).set({
+            "header": headerController.text,
+            "body": bodyController.text,
+            "verify": false,
+            "user": StaticState.user.email.toString(),
+            "username": StaticState.user.displayName.toString(),
+            "likes": [],
+            "likeCount":0,
+            "dislikes": [],
+            "dislikeCount":0,
+          });
+          String s = StaticState.user.email;
+          s = s.substring(0, s.indexOf("@"));
+          databaseReferenceUser
+              .child(s)
+              .child("article")
+              .push()
+              .set({"qid": digest.toString(), "verify": false});
+          Navigator.pop(context);
         }
       });
-
     }
   }
+
   void _ontappeditem(int value) {
     if (value == 0) {
       Navigator.push(
@@ -199,10 +210,10 @@ class _AddArticleState extends State<AddArticle> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Question_Route()));
     }
-    if(value==2)
-      {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Article()));
-      }
+    if (value == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Article()));
+    }
     if (value == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Account()));

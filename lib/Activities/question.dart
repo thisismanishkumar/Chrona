@@ -109,9 +109,11 @@ class _Question_RouteState extends State<Question_Route> {
                             ),
                             Row(
                               children: <Widget>[
-                                Icon(Icons.thumb_up),
+                                Icon(Icons.thumb_up,
+//                                color: isLiked(snapshot.key),
+                                ),
                                 Text(
-                                  " " + snapshot.value["likes"].toString(),
+                                  snapshot.value["likeCount"].toString(),
                                   style: TextStyle(color: Colors.indigo),
                                 ),
                                 Padding(
@@ -119,7 +121,7 @@ class _Question_RouteState extends State<Question_Route> {
                                         EdgeInsetsDirectional.only(start: 5.0)),
                                 Icon(Icons.thumb_down),
                                 Text(
-                                  " " + snapshot.value["dislikes"].toString(),
+                                  " " + snapshot.value["dislikeCount"].toString(),
                                   style: TextStyle(color: Colors.red),
                                 ),
                                 Padding(padding: EdgeInsets.only(left: 50.0)),
@@ -225,19 +227,130 @@ class _Question_RouteState extends State<Question_Route> {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => AddQuestion()));
   }
-
-  Like(String key) {
-    databaseReference.child(key).once().then((DataSnapshot snapshot) {
-      List likes = snapshot.value["likes"];
-      databaseReference.child(key).child("likes").push();
+   Future<Colors> isLiked(String key) {
+    databaseReference.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null && snapshot.value["flag"]) {
+        return Colors.blueAccent;
+      }
+      else{
+        return Colors.black12;
+      }
     });
   }
 
-  Dislike(String key) {
-    databaseReference.child(key).once().then((DataSnapshot snapshot) {
-      int dislikes = snapshot.value["dislikes"];
-      databaseReference.child(key).child("dislikes").set(dislikes + 1);
+  Like(String key) {
+    bool flag=false;
+    databaseReference.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).once().then((DataSnapshot snapshot){
+      if(snapshot.value==null){
+        flag=true;
+        databaseReference.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":true});
+        databaseReference.child(key).once().then((DataSnapshot snapshot) {
+          int likes = snapshot.value["likeCount"];
+          databaseReference.child(key).child("likeCount").set(likes+1);
+        });
+      }
+      else{
+        flag=snapshot.value["flag"];
+        if(flag==true) {
+          flag = false;
+          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+          int likes = snapshot.value["likeCount"];
+            databaseReference.child(key).child("likeCount").set(likes-1);
+          });
+        }
+        else{
+          flag = true;
+          print("%%");
+          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+            int likes = snapshot.value["likeCount"];
+            databaseReference.child(key).child("likeCount").set(likes+1);
+          });
+        }
+        databaseReference.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":flag});
+      }
+      checkDislike(flag,key);
     });
+  }
+  checkDislike(bool flag, String key){
+    if(flag==true) {
+      databaseReference.child(key).child("dislikes").child(
+          StaticState.user.email.substring(
+              0, StaticState.user.email.indexOf("@"))).once().then((
+          DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          bool flag1 = snapshot.value["flag"];
+          if (flag1 == true) {
+            flag1 = false;
+            databaseReference.child(key).once().then((DataSnapshot snapshot) {
+              int dislikes = snapshot.value["dislikeCount"];
+              databaseReference.child(key).child("dislikeCount").set(
+                  dislikes - 1);
+            });
+          }
+          databaseReference.child(key).child("dislikes").child(
+              StaticState.user.email.substring(
+                  0, StaticState.user.email.indexOf("@"))).set({"flag": flag1});
+        }
+      });
+    }
+  }
+
+
+  Dislike(String key) {
+    bool flag;
+    databaseReference.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).once().then((DataSnapshot snapshot){
+      if(snapshot.value==null){
+        flag = true;
+        databaseReference.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":true});
+        databaseReference.child(key).once().then((DataSnapshot snapshot) {
+          int dislikes = snapshot.value["dislikeCount"];
+          databaseReference.child(key).child("dislikeCount").set(dislikes+1);
+        });
+      }
+      else{
+        flag=snapshot.value["flag"];
+        if(flag==true) {
+          flag = false;
+          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+            int dislikes = snapshot.value["dislikeCount"];
+            databaseReference.child(key).child("dislikeCount").set(dislikes-1);
+          });
+        }
+        else{
+          flag=true;
+          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+            int dislikes = snapshot.value["dislikeCount"];
+            databaseReference.child(key).child("dislikeCount").set(dislikes+1);
+          });
+        }
+        databaseReference.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":flag});
+      }
+      checkLike(flag,key);
+    });
+
+  }
+  checkLike(bool flag, String key){
+    if(flag==true) {
+      databaseReference.child(key).child("likes").child(
+          StaticState.user.email.substring(
+              0, StaticState.user.email.indexOf("@"))).once().then((
+          DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          bool flag1 = snapshot.value["flag"];
+          if (flag1 == true) {
+            flag1 = false;
+            databaseReference.child(key).once().then((DataSnapshot snapshot) {
+              int dislikes = snapshot.value["likeCount"];
+              databaseReference.child(key).child("likeCount").set(
+                  dislikes - 1);
+            });
+          }
+          databaseReference.child(key).child("likes").child(
+              StaticState.user.email.substring(
+                  0, StaticState.user.email.indexOf("@"))).set({"flag": flag1});
+        }
+      });
+    }
   }
 
   update(String key, value) {
@@ -245,3 +358,5 @@ class _Question_RouteState extends State<Question_Route> {
         MaterialPageRoute(builder: (context) => UpdateQuestion(key, value)));
   }
 }
+
+

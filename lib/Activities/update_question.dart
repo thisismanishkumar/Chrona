@@ -107,8 +107,12 @@ class _UpdateQuestionState extends State<UpdateQuestion> {
   update() {
     databaseReference.child(qid).child("question").set(question.text);
     databaseReference.child(qid).child("verify").set(false);
+    databaseReference.child(qid).child("likeCount").set(0);
+    databaseReference.child(qid).child("dislikeCount").set(0);
+    databaseReference.child(qid).child("likes").set([]);
+    databaseReference.child(qid).child("dislikes").set([]);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>Question_Route()));
+    Navigator.pop(context);
   }
 
   void _ontappeditem(int value) {

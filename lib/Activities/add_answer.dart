@@ -182,8 +182,10 @@ class _AddAnswerState extends State<AddAnswer> {
         "answer": answer.text,
         "user": StaticState.user.email.toString(),
         "username": StaticState.user.displayName.toString(),
-        "likes": 0,
-        "dislikes": 0
+        "likes": [],
+        "likeCount":0,
+        "dislikes": [],
+        "dislikeCount":0,
       });
       Navigator.pop(context);
     }

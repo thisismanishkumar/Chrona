@@ -130,7 +130,7 @@ class _ArticleState extends State<Article> {
                               children: <Widget>[
                                 Icon(Icons.thumb_up),
                                 Text(
-                                  " " + snapshot.value["likes"].toString(),
+                                  " " + snapshot.value["likeCount"].toString(),
                                   style: TextStyle(color: Colors.indigo),
                                 ),
                                 Padding(
@@ -138,7 +138,7 @@ class _ArticleState extends State<Article> {
                                         EdgeInsetsDirectional.only(start: 5.0)),
                                 Icon(Icons.thumb_down),
                                 Text(
-                                  " " + snapshot.value["dislikes"].toString(),
+                                  " " + snapshot.value["dislikeCount"].toString(),
                                   style: TextStyle(color: Colors.red),
                                 ),
                                 Padding(padding: EdgeInsets.only(left: 190.0)),
@@ -229,19 +229,120 @@ class _ArticleState extends State<Article> {
   }
 
   Like(String key) {
-    databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
-      int likes = snapshot.value["likes"];
-      databaseReferenceArticle.child(key).child("likes").set(likes + 1);
+    bool flag=false;
+    databaseReferenceArticle.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).once().then((DataSnapshot snapshot){
+      if(snapshot.value==null){
+        flag=true;
+        databaseReferenceArticle.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":true});
+        databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+          int likes = snapshot.value["likeCount"];
+          databaseReferenceArticle.child(key).child("likeCount").set(likes+1);
+        });
+      }
+      else{
+        flag=snapshot.value["flag"];
+        if(flag==true) {
+          flag = false;
+          databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+            int likes = snapshot.value["likeCount"];
+            databaseReferenceArticle.child(key).child("likeCount").set(likes-1);
+          });
+        }
+        else{
+          flag = true;
+          print("%%");
+          databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+            int likes = snapshot.value["likeCount"];
+            databaseReferenceArticle.child(key).child("likeCount").set(likes+1);
+          });
+        }
+        databaseReferenceArticle.child(key).child("likes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":flag});
+      }
+      checkDislike(flag,key);
     });
   }
+  checkDislike(bool flag, String key){
+    if(flag==true) {
+      databaseReferenceArticle.child(key).child("dislikes").child(
+          StaticState.user.email.substring(
+              0, StaticState.user.email.indexOf("@"))).once().then((
+          DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          bool flag1 = snapshot.value["flag"];
+          if (flag1 == true) {
+            flag1 = false;
+            databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+              int dislikes = snapshot.value["dislikeCount"];
+              databaseReferenceArticle.child(key).child("dislikeCount").set(
+                  dislikes - 1);
+            });
+          }
+          databaseReferenceArticle.child(key).child("dislikes").child(
+              StaticState.user.email.substring(
+                  0, StaticState.user.email.indexOf("@"))).set({"flag": flag1});
+        }
+      });
+    }
+  }
+
 
   Dislike(String key) {
-    databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
-      int dislikes = snapshot.value["dislikes"];
-
-      databaseReferenceArticle.child(key).child("dislikes").set(dislikes + 1);
+    bool flag;
+    databaseReferenceArticle.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).once().then((DataSnapshot snapshot){
+      if(snapshot.value==null){
+        flag = true;
+        databaseReferenceArticle.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":true});
+        databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+          int dislikes = snapshot.value["dislikeCount"];
+          databaseReferenceArticle.child(key).child("dislikeCount").set(dislikes+1);
+        });
+      }
+      else{
+        flag=snapshot.value["flag"];
+        if(flag==true) {
+          flag = false;
+          databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+            int dislikes = snapshot.value["dislikeCount"];
+            databaseReferenceArticle.child(key).child("dislikeCount").set(dislikes-1);
+          });
+        }
+        else{
+          flag=true;
+          databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+            int dislikes = snapshot.value["dislikeCount"];
+            databaseReferenceArticle.child(key).child("dislikeCount").set(dislikes+1);
+          });
+        }
+        databaseReferenceArticle.child(key).child("dislikes").child(StaticState.user.email.substring(0,StaticState.user.email.indexOf("@"))).set({"flag":flag});
+      }
+      checkLike(flag,key);
     });
+
   }
+  checkLike(bool flag, String key){
+    if(flag==true) {
+      databaseReferenceArticle.child(key).child("likes").child(
+          StaticState.user.email.substring(
+              0, StaticState.user.email.indexOf("@"))).once().then((
+          DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          bool flag1 = snapshot.value["flag"];
+          if (flag1 == true) {
+            flag1 = false;
+            databaseReferenceArticle.child(key).once().then((DataSnapshot snapshot) {
+              int dislikes = snapshot.value["likeCount"];
+              databaseReferenceArticle.child(key).child("likeCount").set(
+                  dislikes - 1);
+            });
+          }
+          databaseReferenceArticle.child(key).child("likes").child(
+              StaticState.user.email.substring(
+                  0, StaticState.user.email.indexOf("@"))).set({"flag": flag1});
+        }
+      });
+    }
+  }
+
 
   void _ontappeditem(int value) {
     if (value == 0) {

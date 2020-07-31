@@ -106,6 +106,10 @@ class _UpdateAnswerState extends State<UpdateAnswer> {
 
   update() {
     databaseReference.child(ansId).child("answer").set(answer.text);
+    databaseReference.child(ansId).child("likeCount").set(0);
+    databaseReference.child(ansId).child("dislikeCount").set(0);
+    databaseReference.child(ansId).child("likes").set([]);
+    databaseReference.child(ansId).child("dislikes").set([]);
     Navigator.pop(context);
   }
 

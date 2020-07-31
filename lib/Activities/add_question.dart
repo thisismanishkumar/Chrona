@@ -182,7 +182,9 @@ class _AddQuestionState extends State<AddQuestion> {
             "user": StaticState.user.email.toString(),
             "username": StaticState.user.displayName.toString(),
             "likes": [],
-            "dislikes": []
+            "likeCount":0,
+            "dislikes": [],
+            "dislikeCount":0,
           });
           String s = StaticState.user.email;
           s = s.substring(0, s.indexOf("@"));

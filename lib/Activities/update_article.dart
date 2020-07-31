@@ -126,6 +126,10 @@ class _UpdateArticleState extends State<UpdateArticle> {
     databaseReference.child(KEY).child("header").set(header.text);
     databaseReference.child(KEY).child("body").set(BODY.text);
     databaseReference.child(KEY).child("verify").set(false);
+    databaseReference.child(KEY).child("likeCount").set(0);
+    databaseReference.child(KEY).child("dislikeCount").set(0);
+    databaseReference.child(KEY).child("likes").set([]);
+    databaseReference.child(KEY).child("dislikes").set([]);
 
     Navigator.pop(context);
   }
