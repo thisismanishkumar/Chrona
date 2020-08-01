@@ -33,6 +33,15 @@ Chrona is a learning and discussing platform where you can:-
   <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc15.jpg" alt="drawing" width="200" height="400"/>
 </p>
 
+## Technology Stack:-
+* Flutter Framework and Dart language
+* Firebase Auth and Google_sign_in
+* Firebase Database
+* <a href="https://newsapi.org/">News Api</a>
+
+## Contributors:-
+* <a href="https://github.com/arc29">Aritra Chatterjee</a>
+* <a href="https://github.com/thisismanishkumar">Manish Kumar</a>
 
 
 
