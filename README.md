@@ -40,6 +40,8 @@ Chrona is a learning and discussing platform where you can:-
   <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc18.jpg" alt="drawing" width="200" height="400"/>
   <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc20.jpg" alt="drawing" width="200" height="400"/>
  </p>
+ 
+### Final APK  <a href="https://github.com/thisismanishkumar/Chrona/blob/master/app-release%5B1%5D.apk">here</a>
 
 ## Technology Stack:-
 * Flutter Framework and Dart language
