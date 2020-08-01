@@ -1,27 +1,31 @@
-import 'package:chrona_1/Activities/update_question.dart';
+import 'package:chrona_1/Activities/update_answer.dart';
 import 'package:chrona_1/UserInfo/state.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import 'answer.dart';
-
-class QuestionComponent extends StatefulWidget {
+class AnswerComponent extends StatefulWidget {
   final DataSnapshot snapshot;
-
-  const QuestionComponent({Key key, this.snapshot}) : super(key: key);
+  final String questionKey;
+  const AnswerComponent({Key key, this.snapshot, this.questionKey})
+      : super(key: key);
   @override
-  _QuestionComponentState createState() => _QuestionComponentState();
+  _AnswerComponentState createState() => _AnswerComponentState();
 }
 
-class _QuestionComponentState extends State<QuestionComponent> {
-  DatabaseReference databaseReference;
+class _AnswerComponentState extends State<AnswerComponent> {
+  DatabaseReference databaseReference, databaseReferenceAnswer;
   FirebaseDatabase firebaseDatabase;
   bool isLiked, isDisliked, isLoading;
   @override
   void initState() {
     firebaseDatabase = FirebaseDatabase.instance;
-    databaseReference = firebaseDatabase.reference().child("Question");
+    databaseReference = firebaseDatabase
+        .reference()
+        .child("Question")
+        .child(widget.questionKey);
+    databaseReferenceAnswer = databaseReference.child("Answer");
     isLiked = false;
     isDisliked = false;
     isLoading = true;
@@ -32,6 +36,8 @@ class _QuestionComponentState extends State<QuestionComponent> {
   Widget build(BuildContext context) {
     DataSnapshot snapshot = widget.snapshot;
     loadLikeData(snapshot.key);
+    TextEditingController answer = new TextEditingController();
+    answer.text = snapshot.value["answer"];
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.20,
@@ -50,43 +56,26 @@ class _QuestionComponentState extends State<QuestionComponent> {
                     readOnly: true,
                     autocorrect: true,
                     autofocus: false,
-                    initialValue: snapshot.value["question"],
-                    maxLength: 256,
-                    maxLines: 6,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                        labelText: "Question",
-                        hintText: 'Enter Question ',
-                        prefixIcon: Icon(Icons.question_answer),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        )),
-                  ),
-                  Text(
-                    "Questioner is ${snapshot.value["username"]}",
-                    textAlign: TextAlign.left,
-                  ),
-                  Padding(padding: EdgeInsets.all(4.0)),
-                  TextFormField(
-                    readOnly: true,
-                    autocorrect: true,
-                    autofocus: false,
-                    initialValue: snapshot.value["tags"].toString(),
+                    controller: answer,
+                    //initialValue: snapshot.value["answer"],
                     maxLength: 256,
                     maxLines: null,
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
-                        labelText: "Tags",
-                        hintText: 'Enter Tags ',
-                        prefixIcon: Icon(Icons.grade),
+                        labelText: "Answer",
+                        hintText: 'Enter Answer ',
+                        prefixIcon: Icon(Icons.question_answer),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         )),
                   ),
+                  Text(
+                    "Answer is uploaded by ${snapshot.value["username"]}",
+                    textAlign: TextAlign.left,
+                  ),
+                  Padding(padding: EdgeInsets.all(4.0)),
                   Row(
                     children: <Widget>[
                       Icon(
@@ -94,7 +83,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
                         color: isLiked ? Colors.blueAccent : Colors.black45,
                       ),
                       Text(
-                        snapshot.value["likeCount"].toString(),
+                        " " + snapshot.value["likeCount"].toString(),
                         style: TextStyle(color: Colors.indigo),
                       ),
                       Padding(padding: EdgeInsetsDirectional.only(start: 5.0)),
@@ -107,21 +96,13 @@ class _QuestionComponentState extends State<QuestionComponent> {
                         style: TextStyle(color: Colors.red),
                       ),
                       Padding(padding: EdgeInsets.only(left: 50.0)),
-                      RaisedButton(
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Answer(
-                                    snapshot.value["question"], snapshot.key))),
-                        child: Text("View"),
-                      ),
                       Padding(padding: EdgeInsets.only(left: 50.0)),
                       RaisedButton(
                         child: Text("UPDATE"),
                         onPressed: snapshot.value["user"].toString() ==
                                 StaticState.user.email.toString()
-                            ? () => update(snapshot.key,
-                                snapshot.value["question"].toString())
+                            ? () => update(widget.questionKey, snapshot.key,
+                                snapshot.value["answer"])
                             : null,
                       ),
                     ],
@@ -134,10 +115,8 @@ class _QuestionComponentState extends State<QuestionComponent> {
           caption: 'Delete',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: snapshot.value["user"].toString() ==
-                  StaticState.user.email.toString()
-              ? () => databaseReference.child(snapshot.key).remove()
-              : null,
+          onTap: () =>
+              checkForDelete(context, snapshot.key, snapshot.value["user"]),
         )
       ],
       secondaryActions: <Widget>[
@@ -159,7 +138,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
 
   void loadLikeData(String key) {
     bool liked, disliked;
-    databaseReference
+    databaseReferenceAnswer
         .child(key)
         .child("likes")
         .child(StaticState.user.email
@@ -171,7 +150,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
       } else {
         liked = false;
       }
-      databaseReference
+      databaseReferenceAnswer
           .child(key)
           .child("dislikes")
           .child(StaticState.user.email
@@ -194,7 +173,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
 
   Like(String key) {
     bool flag = false;
-    databaseReference
+    databaseReferenceAnswer
         .child(key)
         .child("likes")
         .child(StaticState.user.email
@@ -203,33 +182,45 @@ class _QuestionComponentState extends State<QuestionComponent> {
         .then((DataSnapshot snapshot) {
       if (snapshot.value == null) {
         flag = true;
-        databaseReference
+        databaseReferenceAnswer
             .child(key)
             .child("likes")
             .child(StaticState.user.email
                 .substring(0, StaticState.user.email.indexOf("@")))
             .set({"flag": true});
-        databaseReference.child(key).once().then((DataSnapshot snapshot) {
+        databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
           int likes = snapshot.value["likeCount"];
-          databaseReference.child(key).child("likeCount").set(likes + 1);
+          databaseReferenceAnswer.child(key).child("likeCount").set(likes + 1);
         });
       } else {
         flag = snapshot.value["flag"];
         if (flag == true) {
           flag = false;
-          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+          databaseReferenceAnswer
+              .child(key)
+              .once()
+              .then((DataSnapshot snapshot) {
             int likes = snapshot.value["likeCount"];
-            databaseReference.child(key).child("likeCount").set(likes - 1);
+            databaseReferenceAnswer
+                .child(key)
+                .child("likeCount")
+                .set(likes - 1);
           });
         } else {
           flag = true;
           print("%%");
-          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+          databaseReferenceAnswer
+              .child(key)
+              .once()
+              .then((DataSnapshot snapshot) {
             int likes = snapshot.value["likeCount"];
-            databaseReference.child(key).child("likeCount").set(likes + 1);
+            databaseReferenceAnswer
+                .child(key)
+                .child("likeCount")
+                .set(likes + 1);
           });
         }
-        databaseReference
+        databaseReferenceAnswer
             .child(key)
             .child("likes")
             .child(StaticState.user.email
@@ -242,7 +233,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
 
   checkDislike(bool flag, String key) {
     if (flag == true) {
-      databaseReference
+      databaseReferenceAnswer
           .child(key)
           .child("dislikes")
           .child(StaticState.user.email
@@ -253,15 +244,18 @@ class _QuestionComponentState extends State<QuestionComponent> {
           bool flag1 = snapshot.value["flag"];
           if (flag1 == true) {
             flag1 = false;
-            databaseReference.child(key).once().then((DataSnapshot snapshot) {
+            databaseReferenceAnswer
+                .child(key)
+                .once()
+                .then((DataSnapshot snapshot) {
               int dislikes = snapshot.value["dislikeCount"];
-              databaseReference
+              databaseReferenceAnswer
                   .child(key)
                   .child("dislikeCount")
                   .set(dislikes - 1);
             });
           }
-          databaseReference
+          databaseReferenceAnswer
               .child(key)
               .child("dislikes")
               .child(StaticState.user.email
@@ -274,7 +268,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
 
   Dislike(String key) {
     bool flag;
-    databaseReference
+    databaseReferenceAnswer
         .child(key)
         .child("dislikes")
         .child(StaticState.user.email
@@ -283,38 +277,47 @@ class _QuestionComponentState extends State<QuestionComponent> {
         .then((DataSnapshot snapshot) {
       if (snapshot.value == null) {
         flag = true;
-        databaseReference
+        databaseReferenceAnswer
             .child(key)
             .child("dislikes")
             .child(StaticState.user.email
                 .substring(0, StaticState.user.email.indexOf("@")))
             .set({"flag": true});
-        databaseReference.child(key).once().then((DataSnapshot snapshot) {
+        databaseReferenceAnswer.child(key).once().then((DataSnapshot snapshot) {
           int dislikes = snapshot.value["dislikeCount"];
-          databaseReference.child(key).child("dislikeCount").set(dislikes + 1);
+          databaseReferenceAnswer
+              .child(key)
+              .child("dislikeCount")
+              .set(dislikes + 1);
         });
       } else {
         flag = snapshot.value["flag"];
         if (flag == true) {
           flag = false;
-          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+          databaseReferenceAnswer
+              .child(key)
+              .once()
+              .then((DataSnapshot snapshot) {
             int dislikes = snapshot.value["dislikeCount"];
-            databaseReference
+            databaseReferenceAnswer
                 .child(key)
                 .child("dislikeCount")
                 .set(dislikes - 1);
           });
         } else {
           flag = true;
-          databaseReference.child(key).once().then((DataSnapshot snapshot) {
+          databaseReferenceAnswer
+              .child(key)
+              .once()
+              .then((DataSnapshot snapshot) {
             int dislikes = snapshot.value["dislikeCount"];
-            databaseReference
+            databaseReferenceAnswer
                 .child(key)
                 .child("dislikeCount")
                 .set(dislikes + 1);
           });
         }
-        databaseReference
+        databaseReferenceAnswer
             .child(key)
             .child("dislikes")
             .child(StaticState.user.email
@@ -327,7 +330,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
 
   checkLike(bool flag, String key) {
     if (flag == true) {
-      databaseReference
+      databaseReferenceAnswer
           .child(key)
           .child("likes")
           .child(StaticState.user.email
@@ -338,12 +341,18 @@ class _QuestionComponentState extends State<QuestionComponent> {
           bool flag1 = snapshot.value["flag"];
           if (flag1 == true) {
             flag1 = false;
-            databaseReference.child(key).once().then((DataSnapshot snapshot) {
+            databaseReferenceAnswer
+                .child(key)
+                .once()
+                .then((DataSnapshot snapshot) {
               int dislikes = snapshot.value["likeCount"];
-              databaseReference.child(key).child("likeCount").set(dislikes - 1);
+              databaseReferenceAnswer
+                  .child(key)
+                  .child("likeCount")
+                  .set(dislikes - 1);
             });
           }
-          databaseReference
+          databaseReferenceAnswer
               .child(key)
               .child("likes")
               .child(StaticState.user.email
@@ -354,8 +363,55 @@ class _QuestionComponentState extends State<QuestionComponent> {
     }
   }
 
-  update(String key, value) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => UpdateQuestion(key, value)));
+  checkForDelete(BuildContext context, String key, String user) {
+    if (user == StaticState.user.email.toString()) {
+      databaseReference.child("Answer").child(key).remove();
+      Flushbar(
+        padding: EdgeInsets.all(10.0),
+        borderRadius: 8,
+        backgroundGradient: LinearGradient(
+          colors: [Colors.green, Colors.lightGreen],
+          stops: [0.5, 1],
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        title: 'Successful!',
+        message: 'Your Answer has been deleted successfully!!!',
+        duration: Duration(seconds: 4),
+      )..show(context);
+    } else {
+      Flushbar(
+        padding: EdgeInsets.all(10.0),
+        borderRadius: 8,
+        backgroundGradient: LinearGradient(
+          colors: [Colors.deepOrange, Colors.deepOrangeAccent],
+          stops: [0.5, 1],
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        title: 'Failure!',
+        message: 'You cannot delete other user Answer',
+        duration: Duration(seconds: 4),
+      )..show(context);
+    }
+  }
+
+  update(String qid, ansId, ans) {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => UpdateAnswer(qid, ansId, ans)));
   }
 }

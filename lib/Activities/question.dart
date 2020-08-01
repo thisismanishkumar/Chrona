@@ -1,19 +1,13 @@
-import 'dart:collection';
-import 'dart:collection' as prefix0;
-import 'package:flushbar/flushbar.dart';
 import 'package:chrona_1/Activities/account.dart';
 import 'package:chrona_1/Activities/add_question.dart';
-import 'package:chrona_1/Activities/answer.dart';
 import 'package:chrona_1/Activities/article.dart';
 import 'package:chrona_1/Activities/main.dart';
 import 'package:chrona_1/Activities/question_component.dart';
-import 'package:chrona_1/Activities/update_question.dart';
 import 'package:chrona_1/UserInfo/state.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class Question_Route extends StatefulWidget {
   @override
