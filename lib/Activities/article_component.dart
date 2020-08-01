@@ -65,7 +65,7 @@ class _ArticleComponentState extends State<ArticleComponent> {
                     maxLength: 128,
                     maxLines: null,
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                         fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                         labelText: "Heading",
@@ -93,7 +93,7 @@ class _ArticleComponentState extends State<ArticleComponent> {
                     maxLength: 1024,
                     maxLines: null,
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                         labelText: "Body",

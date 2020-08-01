@@ -79,7 +79,7 @@ class _AccountState extends State<Account> {
                   fontSize: 19.0,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
-                  color: Colors.indigo),
+                  color: Colors.blueAccent),
             ),
             Padding(
               padding: EdgeInsets.all(6.0),
@@ -106,7 +106,7 @@ class _AccountState extends State<Account> {
                               '${snapshot.value["title"]}',
                               style: TextStyle(
                                   fontSize: 14.0,
-                                  color: Colors.black,
+                                  
                                   fontWeight: FontWeight.bold),
                             ),
                             leading: Container(
@@ -169,9 +169,10 @@ class _AccountState extends State<Account> {
                               '${snapshot.value["title"]}',
                               style: TextStyle(
                                   fontSize: 14.0,
-                                  color: Colors.black,
+                                  
                                   fontWeight: FontWeight.bold),
                             ),
+                            
                             onTap: () => _onTapItem(
                                 context,
                                 snapshot.value["url"].toString(),
@@ -203,18 +204,18 @@ class _AccountState extends State<Account> {
                   reverse: false,
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
-                    return ListTile(
+                    return ExpansionTile(
                       title: Text(
                         '${snapshot.value["header"]}',
                         style: TextStyle(
                             fontSize: 18.0,
-                            color: Colors.black,
+                            
                             fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(
+                      children: <Widget>[Text(
                         '${snapshot.value["body"]}',
                         style: TextStyle(fontSize: 14.0),
-                      ),
+                      )],
                     );
                   }),
             ),

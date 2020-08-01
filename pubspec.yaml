@@ -45,8 +45,14 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: 'images/work.png'
+  android: true
+  ios: true
 
 
 # For information on the generic Dart part of this file, see the
@@ -79,6 +85,7 @@ flutter:
     - images/gaming_news.png
     - images/global_news.png
     - images/automobile_news.png
+    - images/work.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

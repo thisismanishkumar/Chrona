@@ -65,7 +65,7 @@ class _AnswerState extends State<Answer> {
               maxLength: 256,
               maxLines: null,
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                  TextStyle(fontWeight: FontWeight.bold),
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                   labelText: "Question",

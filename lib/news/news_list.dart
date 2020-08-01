@@ -93,7 +93,7 @@ class _NewsListPageState extends State<NewsListPage> {
                           '${article[position].title}',
                           style: TextStyle(
                               fontSize: 14.0,
-                              color: Colors.black,
+                              
                               fontWeight: FontWeight.bold),
                         ),
                         leading: Container(

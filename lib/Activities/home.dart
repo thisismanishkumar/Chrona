@@ -48,7 +48,7 @@ class HomeScreenState extends State<HomeScreen> {
             new Text(
               'Hello, ' '${appState.user.displayName}' '!',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 25),
+              style: TextStyle( fontSize: 25),
             ),
             new Padding(padding: EdgeInsets.all(10.0)),
             new Text(
@@ -116,11 +116,7 @@ class HomeScreenState extends State<HomeScreen> {
                       CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 50.0,
-                        child: Icon(
-                          Icons.developer_mode,
-                          color: Colors.indigo,
-                          size: 50.0,
-                        ),
+                        child: Image(image: AssetImage('images/work.png')),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10.0),

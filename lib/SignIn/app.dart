@@ -8,6 +8,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chrona',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       routes: {
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginScreen(),

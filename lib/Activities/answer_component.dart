@@ -61,7 +61,7 @@ class _AnswerComponentState extends State<AnswerComponent> {
                     maxLength: 256,
                     maxLines: null,
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                       fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                         labelText: "Answer",

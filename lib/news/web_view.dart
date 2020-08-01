@@ -24,7 +24,7 @@ class _WebViewExampleState extends State<WebView> {
     return WebviewScaffold(
       appBar: AppBar(
         title: Text(widget.src),
-        backgroundColor: Colors.black,
+        // backgroundColor: Colors.black,
       ),
       url: widget.url,
     );

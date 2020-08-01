@@ -21,6 +21,7 @@ class NewsMain extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
+      darkTheme: ThemeData.dark(),
       home: HomePage(),
     );
   }
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: RaisedButton(
-              color: Colors.white,
+              
               elevation: 2.0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4.0)),
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
                       categoriesList[index].title,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
