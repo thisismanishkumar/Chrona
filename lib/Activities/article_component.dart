@@ -63,7 +63,7 @@ class _ArticleComponentState extends State<ArticleComponent> {
                     autofocus: false,
                     initialValue: snapshot.value["header"],
                     maxLength: 128,
-                    maxLines: null,
+                    maxLines: 4,
                     style: TextStyle(
                          fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.multiline,

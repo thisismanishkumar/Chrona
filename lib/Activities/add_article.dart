@@ -60,7 +60,7 @@ class _AddArticleState extends State<AddArticle> {
                       autofocus: true,
                       controller: headerController,
                       maxLength: 256,
-                      maxLines: null,
+                      maxLines: 8,
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       keyboardType: TextInputType.multiline,
@@ -78,8 +78,8 @@ class _AddArticleState extends State<AddArticle> {
                       autocorrect: true,
                       autofocus: true,
                       controller: bodyController,
-                      maxLength: 256,
-                      maxLines: 8,
+                      maxLength: 1024,
+                      maxLines: 18,
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       keyboardType: TextInputType.multiline,

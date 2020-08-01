@@ -66,7 +66,7 @@ class _AddAnswerState extends State<AddAnswer> {
               autofocus: false,
               initialValue: ques,
               maxLength: 256,
-              maxLines: null,
+              maxLines: 4,
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               keyboardType: TextInputType.multiline,
@@ -84,7 +84,7 @@ class _AddAnswerState extends State<AddAnswer> {
                 autofocus: true,
                 controller: answer,
                 maxLength: 512,
-                maxLines: null,
+                maxLines: 10,
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 keyboardType: TextInputType.multiline,

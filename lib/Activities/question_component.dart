@@ -52,7 +52,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
                     autofocus: false,
                     initialValue: snapshot.value["question"],
                     maxLength: 256,
-                    maxLines: 6,
+                    maxLines: 4,
                     style: TextStyle(
                          fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.multiline,
@@ -75,7 +75,7 @@ class _QuestionComponentState extends State<QuestionComponent> {
                     autofocus: false,
                     initialValue: snapshot.value["tags"].toString(),
                     maxLength: 256,
-                    maxLines: null,
+                    maxLines: 4,
                     style: TextStyle(
                          fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.multiline,
