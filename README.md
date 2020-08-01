@@ -38,7 +38,7 @@ Chrona is a learning and discussing platform where you can:-
   <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc16.jpg" alt="drawing" width="200" height="400"/>
   <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc17.jpg" alt="drawing" width="200" height="400"/>
   <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc18.jpg" alt="drawing" width="200" height="400"/>
-  <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc19.jpg" alt="drawing" width="200" height="400"/>
+  <img src="https://github.com/thisismanishkumar/Chrona/blob/master/screenshots/sc20.jpg" alt="drawing" width="200" height="400"/>
  </p>
 
 ## Technology Stack:-
