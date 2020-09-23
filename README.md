@@ -52,6 +52,7 @@ Chrona is a learning and discussing platform where you can:-
 ## Contributors:-
 * <a href="https://github.com/arc29">Aritra Chatterjee</a>
 * <a href="https://github.com/thisismanishkumar">Manish Kumar</a>
+* <a href="https://github.com/chinmay-sama">Chinmay Gupta</a>
 
 
 
