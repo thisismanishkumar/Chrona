@@ -13,6 +13,7 @@ Chrona is a learning and discussing platform where you can:-
 * You can like & dislike news, which will be saved to the User's profile.
 * One can write an Article also and it will have the same feature as Question's as well as you can __Bookmark__ them which will be saved to user's profile.
 * User will be asked to __Sign__ in with __Google account__ (as every android user's have it).
+* Some Other Features
 
 ## Screenshots:-
 <p>
@@ -53,7 +54,6 @@ Chrona is a learning and discussing platform where you can:-
 * <a href="https://github.com/arc29">Aritra Chatterjee</a>
 * <a href="https://github.com/thisismanishkumar">Manish Kumar</a>
 * <a href="https://github.com/chinmay-sama">Chinmay Gupta</a>
-
 
 
 
